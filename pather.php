@@ -1,6 +1,7 @@
 <?php
-$handle = fopen("input-3.txt", "r");
-$string = file_get_contents('input-3.txt');
+$handle = fopen("input-4.txt", "r");
+$output = fopen("output.txt", "w");
+$string = file_get_contents('input-4.txt');
 $hash_markers = [];
 //echo input file
 // if ($handle) {
@@ -15,42 +16,52 @@ $hash_markers = [];
 $hash_loc = '0';
 $hash_count = 0;
 // finds hash locations and saves to an array
-while($hash_loc !== false){
+while ($hash_loc !== false) {
 	$hash_loc = strpos($string, '#', $hash_loc+1);
-	if($hash_loc){
+	if ($hash_loc) {
 		array_push($hash_markers, $hash_loc);
 		$hash_count++;
 	}
 }
 echo "count: $hash_count<br>";
-foreach($hash_markers as $marker){
+foreach ($hash_markers as $marker) {
 	echo "marker: $marker<br>";
 }
+for ($j = 0; $j < $hash_count-1; $j++) {
+	$vertical = ceil($hash_markers[$j+1]/25) - ceil($hash_markers[$j]/25);
+	echo "vertical = $vertical<br>";
+	for ($i = 0; $i < $vertical; $i++) {
+		$index = $hash_markers[$j] + 25;	
+			echo "string: $string[$index]<br>";
+			$string = substr_replace($string, '*', $hash_markers[$j]+25, 1);
+			$hash_markers[$j] += 25;
+	}
+	echo "hash marker = $hash_markers[$j]<br>";
 
-$horizontal = ceil($hash_markers[1]/25) - ceil($hash_markers[0]/25);
-echo $horizontal . "<br>";
-for($i=0; $i<$horizontal; $i++){
-	$string = substr_replace($string, '*', $hash_markers[0]+25, 1);
-	$hash_markers[0] += 25;
+	$horizontal = $hash_markers[$j+1] - $hash_markers[$j];
+	echo "horizontal = $horizontal<br>";
+	if ($horizontal >= 0) {
+		for ($i = 0; $i < $horizontal-1; $i++) {
+			$string = substr_replace($string, '*', $hash_markers[$j]+1, 1);
+			$hash_markers[$j] += 1;
+		}
+	} else {
+		$horizontal = abs($horizontal);
+		for ($i = $horizontal-1; $i > 0; $i--) {
+			$string = substr_replace($string, '*', $hash_markers[$j]-1, 1);
+			$hash_markers[$j] -= 1;			
+		}
+	}
 }
-echo "hash marker 0 = $hash_markers[0]<br>";
-
-$vertical = $hash_markers[1] - $hash_markers[0];
-echo "vertical = $vertical<br>";
-for($i=0; $i<$vertical-1; $i++){
-	$string = substr_replace($string, '*', $hash_markers[0]+1, 1);
-	$hash_markers[0] += 1;
-}
-
-// $string = strtr($string, ".", "\n");
 $arr = str_split($string);
-for($i=0; $i<count($arr); $i++){
-	if (ctype_space($arr[$i])){
+for ($i = 0; $i < count($arr); $i++) {
+	if (ctype_space($arr[$i])) {
 		$arr[$i] = "<br>";
 	}
 	echo $arr[$i];
 }
-//echo $string;
-file_put_contents("../solution.txt", $string);
+
+fwrite($output, $string);
+fclose($output);
 
 ?>
