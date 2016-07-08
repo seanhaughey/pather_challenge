@@ -11,7 +11,7 @@ $string = fread($input, filesize($argv[1]));
 
 // set needed variables
 $hash_markers = [];
-$hash_loc = -1;
+$hash_loc = 0;
 $hash_count = 0;
 
 // convert string to array to use in height and width calculations
@@ -30,11 +30,12 @@ $width = count($arr)/$height;
 
 // find hash locations and save to an array
 while ($hash_loc >= -1) {
-	$hash_loc = strpos($string, '#', $hash_loc+1);
+	$hash_loc = strpos($string, '#', $hash_loc);
 	if ($hash_loc > -1) {
 		array_push($hash_markers, $hash_loc);
 		$hash_count++;
-	};
+	}
+	$hash_loc++;
 }
 // for loop runs for each hash character - total determined by the counter
 for ($j = 0; $j < $hash_count-1; $j++) {
