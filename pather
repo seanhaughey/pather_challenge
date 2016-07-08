@@ -18,7 +18,7 @@ $hash_count = 0;
 $arr = str_split($string);
 $height = 0;
 
-// determine the height of the rectangle
+// determine the height of the rectangle by looking for whitespace at end of row
 foreach ($arr as $value) {
 	if ($value !== '.' and $value !== '#') {
 		$height++;
@@ -31,7 +31,7 @@ $width = count($arr)/$height;
 // find hash locations and save to an array
 while ($hash_loc >= -1) {
 	$hash_loc = strpos($string, '#', $hash_loc+1);
-	if ($hash_loc) {
+	if ($hash_loc > -1) {
 		array_push($hash_markers, $hash_loc);
 		$hash_count++;
 	};
