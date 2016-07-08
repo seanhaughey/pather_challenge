@@ -2,7 +2,7 @@
 $input = fopen("input-4.txt", "r");
 $output = fopen("output.txt", "w");
 // convert input.txt to string
-$string = file_get_contents('input-4.txt');
+$string = fread($input, filesize('input-4.txt'));
 $hash_markers = [];
 $hash_loc = '0';
 $hash_count = 0;
