@@ -1,8 +1,8 @@
 <?php
-$input = fopen("input-4.txt", "r");
+$input = fopen("input.txt", "r");
 $output = fopen("output.txt", "w");
 // convert input.txt to string
-$string = fread($input, filesize('input-4.txt'));
+$string = fread($input, filesize('input.txt'));
 $hash_markers = [];
 $hash_loc = '0';
 $hash_count = 0;
