@@ -28,7 +28,7 @@ foreach ($arr as $value) {
 // determine the width of the rectangle
 $width = count($arr)/$height;
 
-// find hash locations and save to an array
+// find hash locations and save to an array - exits loop when no more hashes are found (strpos = -1)
 while ($hash_loc > -1) {
 	$hash_loc = strpos($string, '#', $hash_loc);
 	if ($hash_loc > -1) {
@@ -45,9 +45,12 @@ for ($j = 0; $j < $hash_count-1; $j++) {
 	$row1 = ceil($hash_markers[$j]/$width);
 	$row2 = ceil($hash_markers[$j+1]/$width);
 
-	// fixed edge case with first hash at index 0 - $row1 calculates to 0 but there is no row 0. Must round up to 1
-	if ($row1 == 0) {
-		$row1 = 1;
+	// fixed instances where hash is first character in a row
+	if ($hash_markers[$j] % $width == 0) {
+		$row1++;
+	}
+	if ($hash_markers[$j+1] % $width == 0){
+		$row2++;
 	}
 	$vertical = $row2 - $row1;
 
