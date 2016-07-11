@@ -44,11 +44,13 @@ for ($j = 0; $j < $hash_count-1; $j++) {
 	// calculate vertical distance between the hashes
 	$row1 = ceil($hash_markers[$j]/$width);
 	$row2 = ceil($hash_markers[$j+1]/$width);
+
+	// fixed edge case with first hash at index 0 - $row1 calculates to 0 but there is no row 0. Must round up to 1
 	if ($row1 == 0) {
 		$row1 = 1;
 	}
 	$vertical = $row2 - $row1;
-	
+
 	// vertically replace only the dot characters with asterisks
 	for ($i = 0; $i < $vertical; $i++) {
 		$index = $hash_markers[$j] + $width;
