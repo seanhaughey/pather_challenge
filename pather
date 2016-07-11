@@ -37,22 +37,28 @@ while ($hash_loc > -1) {
 		$hash_loc++;
 	}
 }
+
 // for loop runs for each hash character - total determined by the counter
 for ($j = 0; $j < $hash_count-1; $j++) {
 
 	// calculate vertical distance between the hashes
-	$vertical = ceil($hash_markers[$j+1]/$width) - ceil($hash_markers[$j]/$width);
-
+	$row1 = ceil($hash_markers[$j]/$width);
+	$row2 = ceil($hash_markers[$j+1]/$width);
+	if ($row1 == 0) {
+		$row1 = 1;
+	}
+	$vertical = $row2 - $row1;
+	
 	// vertically replace only the dot characters with asterisks
 	for ($i = 0; $i < $vertical; $i++) {
 		$index = $hash_markers[$j] + $width;
 
-		// conditional to fix edge case of overwriting hash character directly verticle from previous hash
-		if ($string[$index] == "#") {
+		// conditional to fix edge case of overwriting hash character directly vertical from previous hash
+		if ($string[$index] == '#') {
 			$hash_markers[$j] += $width;
 		} else {
-		$string = substr_replace($string, '*', $hash_markers[$j]+$width, 1);
-		$hash_markers[$j] += $width;
+			$hash_markers[$j] += $width;
+			$string = substr_replace($string, '*', $hash_markers[$j], 1);		
 		}
 	}
 
